@@ -3,7 +3,7 @@ let fibo = require("./fibonacci")
 
 console.log("1. Start of the program.");
 
-// let fibo = child_process.spawn("node", ["./lab1/fibonacci.js"], {stdio : "inherit"});
+// let fibo = child_process.spawn("node", ["./fibonacci.js"], {stdio : "inherit"});
 
 let timer = setTimeout(()=>{
      
