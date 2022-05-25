@@ -4,9 +4,11 @@ const path = require("path");
 
 const app = express();
 
-app.get("/", function(req, res){
-    res.status(200).sendFile(path.join(__dirname,"/public/index.html"))
-});
+const routes = require("./api/routes")
+
+app.use('/', routes);
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 const server = app.listen(process.env.PORT, function(){
     console.log("Listening to http://localhost:"+server.address().port);

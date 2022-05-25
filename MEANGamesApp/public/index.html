@@ -1,15 +1,58 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MEAN Games</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/custom.css" rel="stylesheet" />
 </head>
 <body>
     <H1>Welcome to MEAN Games</H1>
-    <footer>
-        <p>© 2020 Maharishi International University. All Rights Reserved.</p>
+    <main>
+        <div class="text-center text-danger">Please only use port 8080 to test these buttons</div>
+        <div class="text-center mt-5">
+            <button class="btn btn-primary" onclick="location.href='http\://localhost:8080/games'">Get all Games</button>
+        </div>
+        <div class="text-center mt-5">
+            <input type="text" id="count" name="count" placeholder="count">
+            <input type="text" id="offset" name="offset" placeholder="offset">
+            <br>
+            <button class="btn btn-primary mt-3" id="getByInput"> Get By Input</button>
+        </div>
+        <div class="text-center mt-5">
+            <input type="text" id="index" name="index" placeholder="index">
+            <br>
+            <button class="btn btn-primary mt-3" id="getByIndex"> Get By Games Index</button>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <p class="test-muted text-center">
+                <a href="https://compro.miu.edu" target="_blank">
+                    <img src="./images/logo.webp" height="80" alt="MIU Compro" />
+                </a>
+                <br/>
+                <small class="text black-50 text-center">&copy; 2020 Maharishi International University. All Rights Reserved. </small>
+            </p>
+        </div>
     </footer>
+    <script>
+
+        const getByInput = document.querySelector('#getByInput');
+        getByInput.addEventListener('click', function(){
+            const count = document.querySelector("#count");
+            const offset = document.querySelector("#offset");
+            window.location.href = "http://localhost:8080/games?count"+count.value+"&offset="+offset.value;
+        });
+        const getByIndex = document.querySelector('#getByIndex');
+        getByIndex.addEventListener('click', function(){
+            const index = document.querySelector("#index");
+            window.location.href = "http://localhost:8080/games/"+index.value;
+        });
+
+    </script>
 </body>
 </html>
