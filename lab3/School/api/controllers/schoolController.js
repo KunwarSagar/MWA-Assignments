@@ -18,11 +18,11 @@ const getAll = function(req, res){
 }
 
 const getOne = function(req, res){
-    const index = req.params.index;
-    if(index > students.length-1){
+    const index = parseInt(req.params.index, process.env.RADIX);
+    if(index > students.length){
         res.status(404).json({"message":"not found"});
     }
-    res.status(200).json(students[index]);
+    res.status(200).json(students[index-1]);
 }
 
 module.exports= {
