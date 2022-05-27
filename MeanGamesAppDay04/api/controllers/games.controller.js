@@ -39,7 +39,47 @@ const getOne = function(req, res){
     })
 }
 
+const addOne = function(req, res){
+    let newGame = {};
+    const gameData = req.body;
+    if(gameData && gameData.title && gameData.price && gameData.minPlayers && gameData.minAge){
+
+        newGame.title= gameData.title;
+        newGame.price= parseFloat(gameData.price);
+        newGame.minPlayers = parseInt(gameData.minPlayers);
+        newGame.minAge = parseInt(gameData.minAge);
+
+        const db = dbConn.get();
+        const gamesCollection = db.collection(process.env.DB_GAMES_COLLECTION);
+
+        gamesCollection.insertOne(newGame, function(err,response){
+            if (err) {
+                res.status(500).json({error: err});
+            } else {
+                res.status(201).json(response);
+            }
+        })
+    }else{
+        res.status(500).json({error:"error"});
+    }
+}
+
+const deleteOne = function(req, res){
+    const db = dbConn.get();
+    const gamesCollection = db.collection(process.env.DB_GAMES_COLLECTION);
+    const gameId = req.params.gameId;
+    gamesCollection.deleteOne({_id: ObjectId(gameId)}, function(err, response){
+        if(err){
+            console.log("No game found by Id:", gameId);
+            res.status(500).json({error: "No game found by Id:" + gameId});;
+        }
+        res.status(200).json(response);
+    })
+}
+
 module.exports = {
     getAll,
-    getOne
+    getOne,
+    addOne,
+    deleteOne
 }

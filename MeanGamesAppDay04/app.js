@@ -6,6 +6,7 @@ const router = require("./api/routes/index")
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));     
 app.use(router);
 
 app.use(express.static(path.join(__dirname, "public")));

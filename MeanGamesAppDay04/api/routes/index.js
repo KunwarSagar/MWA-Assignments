@@ -10,8 +10,11 @@ router.route("/")
     });
 
 router.route("/games")
-    .get(gameController.getAll);
+    .get(gameController.getAll)
+    .post(gameController.addOne);
+
 router.route("/games/:gameId")
-    .get(gameController.getOne);
+    .get(gameController.getOne)
+    .delete(gameController.deleteOne);
 
 module.exports = router;
