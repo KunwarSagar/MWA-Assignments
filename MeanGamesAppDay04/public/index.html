@@ -12,9 +12,8 @@
 <body>
     <H1>Welcome to MEAN Games</H1>
     <main>
-        <div class="text-center text-danger">Please only use port 8000 to test these buttons</div>
         <div class="text-center mt-5">
-            <button class="btn btn-primary" onclick="location.href='http\://localhost:8000/games'">Get all Games</button>
+            <button class="btn btn-primary" onclick="goToLink()">Get all Games</button>
         </div>
         <div class="text-center mt-5">
             <input type="text" id="count" name="count" placeholder="count">
@@ -26,6 +25,31 @@
             <input type="text" id="index" name="index" placeholder="game id">
             <br>
             <button class="btn btn-primary mt-3" id="getByIndex"> Get By Games Id</button>
+        </div>
+        <div class="text-center mt-5">
+            <form id="inputForm" action="" method="post">
+                <div>
+                    <input type="text" name="title" placeholder="Title" id="title">
+                </div>
+                <div>
+                    <input type="text" name="price" placeholder="Price" id="price">
+                </div>
+                <div>
+                    <input type="text" name="minPlayers" placeholder="Min players" id="minPlayers">
+                </div>
+                <div>
+                    <input type="text" name="minAge" placeholder="Min age" id="minAge">
+                </div>
+                <div class="mt-2">
+                    <button class="btn btn-secondary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="text-center mt-5">
+            <input type="text" name="gameId" placeholder="Game Id" id="gameId">
+            <div class="mt-2">
+                <button class="btn btn-secondary" id="deleteGame">Delete</button>
+            </div>
         </div>
     </main>
     <footer class="footer">
@@ -40,19 +64,53 @@
         </div>
     </footer>
     <script>
+        let port = location.port;
+
+        const goToLink = function(){
+            location.href='http\://localhost:'+ port +'/games';
+        }
 
         const getByInput = document.querySelector('#getByInput');
         getByInput.addEventListener('click', function(){
             const count = document.querySelector("#count");
             const offset = document.querySelector("#offset");
-            window.location.href = "http://localhost:8000/games?count="+count.value+"&offset="+offset.value;
+            window.location.href = "http://localhost:"+port+"/games?count="+count.value+"&offset="+offset.value;
         });
         const getByIndex = document.querySelector('#getByIndex');
         getByIndex.addEventListener('click', function(){
             const index = document.querySelector("#index");
-            window.location.href = "http://localhost:8000/games/"+index.value;
+            window.location.href = "http://localhost:"+port+"/games/"+index.value;
         });
+        const inputForm = document.forms.inputForm;
+        inputForm.addEventListener("submit", function(e){
+            e.preventDefault();
+            this.action= "http://localhost:"+port+"/games";
+            this.submit();
+        })
 
+        const deleteGame = document.querySelector('#deleteGame');
+        deleteGame.addEventListener('click', function(){
+            const gameId = document.querySelector("#gameId")
+            var url = "http://localhost:"+port+"/games/"+gameId.value;
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("DELETE", url, true);
+            xhr.onload = function () {
+                var users = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    const response = JSON.parse(xhr.response);
+                    if(response.deletedCount == 0){
+                        alert('no item');
+                    }else{
+                        alert('deleted');
+                    }
+                } else {
+                    alert('failed');
+                }
+            }
+            xhr.send(null);
+        });
+     
     </script>
 </body>
 </html>
